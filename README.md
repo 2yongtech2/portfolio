@@ -6,5 +6,5 @@
 #### 작업시 뒤로가기할때 이전 페이지로 가게 작업해주세요(spa형식으로 하셔도 일일이 js로 기능 넣어주면 쌉가능함)
 
 
-https://theuber.co.kr/humpton_portfolio/tk-chemicals/
+https://theuber.co.kr/
 여기 참조하세영
