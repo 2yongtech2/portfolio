@@ -1,0 +1,23 @@
+{
+  "name": "nuxt-app",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "cross-env NUXT_HOST=0.0.0.0 NITRO_PORT=3000 nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare"
+  },
+  "dependencies": {
+    "@nuxt/devtools": "latest",
+    "@pinia/nuxt": "^0.5.1",
+    "cross-env": "^7.0.3",
+    "nuxt": "^3.10.2",
+    "pinia": "^2.1.7",
+    "sass": "^1.49.0",
+    "sass-loader": "^12.1.0",
+    "vue": "^3.4.19",
+    "vue-router": "^4.2.5"
+  }
+}
