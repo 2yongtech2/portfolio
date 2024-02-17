@@ -2,7 +2,6 @@
 export default defineNuxtConfig({
   devtools: { enabled: true },
   app: {
-    cdnURL: '/resources/',
     head:{
       htmlAttrs: {
         lang: 'ko'
