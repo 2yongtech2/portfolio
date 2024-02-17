@@ -1,10 +1,5 @@
 <template>
   <div class="body">
-    <header class="header">
-      <nuxt-link to="jsh" class="link">jsh</nuxt-link>
-      <nuxt-link to="ksm" class="link">ksm</nuxt-link>
-      <nuxt-link to="yty" class="link">ksm</nuxt-link>
-    </header>
     <NuxtPage/>
   </div>
 </template>
