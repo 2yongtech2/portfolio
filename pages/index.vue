@@ -16,9 +16,9 @@
         <div class="box-img">
           <img :src="`/resources/images/${page.name}.jpg`" alt="">
         </div>
-        <!-- @click="handleClickMovePage(page.name)" -->
         <div
           class="wrap-title"
+          @click="handleClickMovePage(page.name)"
         >
           <h2 class="title line">
             <span v-for="spell in splitName(page.name)" :key="spell" class="spell" :class="`spell-${index}`">

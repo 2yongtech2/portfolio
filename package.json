@@ -7,12 +7,16 @@
     "dev": "cross-env NUXT_HOST=0.0.0.0 NITRO_PORT=3000 nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
-    "postinstall": "nuxt prepare"
+    "postinstall": "nuxt prepare",
+    "predeploy": "npm run generate",
+    "deploy": "gh-pages -d .output/public"
   },
   "dependencies": {
     "@nuxt/devtools": "latest",
     "@pinia/nuxt": "^0.5.1",
     "cross-env": "^7.0.3",
+    "gh-pages": "^6.1.1",
+    
     "gsap": "^3.12.5",
     "nuxt": "^3.10.2",
     "pinia": "^2.1.7",
