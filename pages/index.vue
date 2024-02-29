@@ -1,106 +1,337 @@
 <template>
-  <div
-    class="wrap-thumb"
-  >
-    <div class="thumb" v-for="(item, index) in 7" :key="index" @click="handleClickMovePage(index)">
-      <img :src="`/resources/images/${index + 1}.jpg`" alt="">
+  <div class="body" :style="`height: ${innerHeight}px`">
+    <div class="intro" v-if="false">
+      <h1 class="title" v-for="a in titleArrr" :key="a">
+        {{ a }}
+      </h1>
     </div>
-  </div>
-  <div class="box-page-bg">
-    <div class="page-bg" v-for="(item, index) in 7" :key="index">
-      <img :src="`/resources/images/${index + 1}.jpg`" alt="">
+    <div class="slider">
+      <div
+        v-for="(page, index) in PAGE_INFO" :key="page.name"
+        class="slide"
+        :style="{
+          'display': slideIndex === index ? 'block' : 'none',
+        }"
+      >
+        <div class="box-img">
+          <img :src="`/resources/images/${page.name}.jpg`" alt="">
+        </div>
+        <!-- @click="handleClickMovePage(page.name)" -->
+        <div
+          class="wrap-title"
+        >
+          <h2 class="title line">
+            <span v-for="spell in splitName(page.name)" :key="spell" class="spell" :class="`spell-${index}`">
+              {{ spell }}
+            </span>
+          </h2>
+          <h2 class="title fill">
+            <span v-for="spell in splitName(page.name)" :key="spell">
+              {{ spell }}
+            </span>
+          </h2>
+        </div>
+      </div>
     </div>
+
+    <div
+      class="page-transition"
+      :class="[
+        {'up' : isUpScroll},
+        {'down' : isDownScroll},
+        {'move' : isMoveScroll}
+      ]"
+      :style="{
+        'background': PAGE_INFO[currentSlide].color
+      }"
+    ></div>
   </div>
-  
+
 </template>
 
 <script setup>
 import { useRoute, useRouter } from 'vue-router';
 import { gsap } from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import textScroll from '@/assets/js/TextScroll.js'
+import { PAGE_INFO } from '@/const/pageInfo'
+
+gsap.registerPlugin(ScrollTrigger)
 
 const route = useRoute();
 const router = useRouter();
 
+
+
 onMounted(() => {
-  innerWidth.value = window.innerWidth
+  textScroll()
+  gsap.from('.body', {autoAlpha: 0, duration: 1, ease: "Expo.easeInOut"})
   innerHeight.value = window.innerHeight
-  thumb.value = document.querySelectorAll('.thumb');
-  pageBg.value = document.querySelectorAll('.page-bg');
-  setPageBg()
   window.addEventListener('resize', () => {
-    innerWidth.value = window.innerWidth
     innerHeight.value = window.innerHeight
   })
+
+  setTimeout(() => {
+    revealText()
+  }, 1000)
+
+  // 스크롤 이벤트
+  window.addEventListener('wheel', (e) => {
+    if(isScroll.value) return
+    isScroll.value = true
+    if (e.deltaY > 0) {
+      if(currentSlide.value !== PAGE_INFO.length - 1){
+        currentSlide.value++
+        isDownScroll.value = true
+        setTimeout(() => {
+          coverText()
+          slideIndex.value++
+        }, 700)
+      }
+    } else {
+      if(currentSlide.value !== 0){
+        
+        isUpScroll.value = true
+        currentSlide.value--
+        setTimeout(() => {
+          coverText()
+          slideIndex.value--
+        }, 700)
+      }
+    }
+    setTimeout(() => {
+      isScroll.value = false
+      isUpScroll.value = false
+      isDownScroll.value = false
+      revealText();
+    }, 1500)
+  })
+
+  // 모바일에서 먹히게
+  let startY;
+  window.addEventListener('touchstart', (e) => {
+    startY = e.touches[0].clientY;
+  });
+
+  window.addEventListener('touchmove', (e) => {
+    if (isScroll.value) return;
+    isScroll.value = true;
+
+    const deltaY = e.touches[0].clientY - startY;
+
+    if (deltaY > 0) {
+      if (currentSlide.value !== PAGE_INFO.length - 1) {
+        currentSlide.value++;
+        isDownScroll.value = true;
+        setTimeout(() => {
+          coverText();
+          slideIndex.value++;
+        }, 700);
+      }
+    } else {
+      if (currentSlide.value !== 0) {
+        isUpScroll.value = true;
+        currentSlide.value--;
+        setTimeout(() => {
+          coverText();
+          slideIndex.value--;
+        }, 700);
+      }
+    }
+
+    setTimeout(() => {
+      isScroll.value = false;
+      isUpScroll.value = false;
+      isDownScroll.value = false;
+      revealText();
+    }, 1500);
+  });
 })
 
+const isScroll = ref(false)
+const isUpScroll = ref(false)
+const isDownScroll = ref(false)
+const isMoveScroll = ref(false)
+const currentSlide = ref(0)
+const slideIndex = ref(0)
 const innerWidth = ref()
-const innerHeight = ref()
-const pageBg = ref()
-const thumb = ref()
+const innerHeight = ref(0)
+const tl = gsap.timeline()
 
-const setPageBg = () =>{
-  pageBg.value.forEach((item, index) => {
-    const { top, left, width, height } = thumb.value[index].getBoundingClientRect()
-    gsap.set(item, { top, left, width, height })
-  })
-}
-const handleClickMovePage = (index) => {
-  // index에 해당하는 thumb를 제외하고 opacity 0으로 변경
-  thumb.value.forEach((item, i) => {
-    gsap.to(item, { opacity: 0, duration: 0.2 })
-  })
-  pageBg.value.forEach((item, i) => {
-    if(i !== index){
-      gsap.to(item, { opacity: 0, duration: 0.2 })
-    }
-  })
-  gsap.to(pageBg.value[index], { 
-    top: 0, 
-    left: 0, 
-    width: innerWidth.value, 
-    height: innerHeight.value, 
-    ease:"Expo.easeInOut",
-    duration: 1,
-    delay: 0.5
-  })
+const handleClickMovePage = (name) => {
+  isMoveScroll.value = true
   // 페이지 이동
   setTimeout(() => {
-    // TODO: detail/index + 1로 이동해야됨 파라미터 귀찮아서 아직 안했을뿐 매우 쉬움
-    router.push(`detail`)
-  }, 1500)
+    router.push(`project/${name}`)
+  }, 1500)   
 }
 
+const splitName = (name) => {
+  return name.split('')
+}
+
+const revealText = () => {
+  tl.to(`.spell-${slideIndex.value}`,{
+    opacity: 1,
+    stagger: 0.05,
+    ease: "expoScale(0.5,7,none)",
+    y: 0
+  })
+}
+
+const coverText = () => {
+  console.log(123)
+  tl.to(`.spell-${slideIndex.value}`,{
+    opacity: 0,
+    stagger: 0.05,
+    ease: "expoScale(0.5,7,none)",
+    y: 50,
+    duration: 0.2
+  })
+}
 </script>
 
 <style lang="scss" scoped>
-.wrap-thumb {
-  width: 320px;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 10px;
-  margin: 0 auto;
+.body{
+  width: 100vw;
+  overflow: hidden;
+  visibility: hidden;
 }
-.thumb {
-  width: 100px;
-  height: 100px;
-  position: relative;
-  z-index: 100;
-  cursor: pointer;
-  img{
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
+.slider {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
 
-}
-.page-bg {
-  width: 0;
-  height: 0;
-  position: fixed;
-  img{
+.slide {
+  width: 100%;
+  height: 100%;
+  font-size: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #000;
+  position: absolute;
+  .wrap-title{
+    position: absolute;
+    // width: 80vw;
+    text-align: center;
+    z-index: 10;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+  }
+  .title{
+    display: inline-block;
+    font-size: max(146px, 5vw);
+    color: #fff;
+    line-height: 1;
+    text-transform: uppercase;
+    word-break: break-all;
+    white-space: inherit;
+    width: 100%;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    cursor: pointer;
+    &.line{
+      -webkit-text-stroke-width: 1px;
+      -webkit-text-stroke-color: #fff;
+      -webkit-text-fill-color: transparent;
+      overflow: hidden;
+    }
+    &.fill{
+      position: absolute;
+      left: 50%;
+      top: 0;
+      transform: translate(-50%, 0);
+      -webkit-text-fill-color: #fff;
+      clip-path: circle(0vw at 50% 50%);
+      z-index: 999;
+    }
+    .spell{
+      opacity: 0;
+      transform: translateY(50px);
+      display: block;
+      position: relative;
+    }
+    span{
+      font-family: inherit;
+      font-weight: inherit;
+    }
+  }
+  .box-img{
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    overflow: hidden;
+    background: #000;
+    img, video{
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0.8;
+    }
+  }
+}
+
+.page-transition {
+  width: 100vw;
+  height: 150vh;
+  position: fixed;
+  top: 0;
+  left: 50%;
+  transform: translate(-50%, 100%);
+  z-index: 100;
+  &.up {
+    animation: upScroll 1.5s forwards;
+  }
+  &.down {
+    animation: downScroll 1.5s forwards;
+  }
+  &.move{
+    animation: moveScroll 0.7s forwards;
+  }
+}
+
+
+@keyframes upScroll {
+  0% {
+    transform: translate(-50%, -100%);
+  }
+  45% {
+    transform: translate(-50%, 0%);
+  }
+  55%{
+    transform: translate(-50%, 0%);
+  }
+  100% {
+    transform: translate(-50%, 100%);
+  }
+}
+
+@keyframes downScroll {
+  0% {
+    transform: translate(-50%, 100%);
+  }
+  45% {
+    transform: translate(-50%, 0%);
+  }
+  55%{
+    transform: translate(-50%, 0%);
+  }
+  100% {
+    transform: translate(-50%, -100%);
+  }
+}
+
+@keyframes moveScroll {
+  0% {
+    transform: translate(-50%, 100%);
+  }
+  100% {
+    transform: translate(-50%, 0%);
   }
 }
 </style>

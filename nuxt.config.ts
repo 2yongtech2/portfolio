@@ -22,6 +22,9 @@ export default defineNuxtConfig({
     '@pinia/nuxt',
   ],
   css: [
-    // '@/assets/scss/common.scss',
+    '@/assets/scss/common.scss',
   ],
+  build: {
+    transpile: ['gsap']
+  },
 })
