@@ -14,10 +14,11 @@
         }"
       >
         <div class="box-img">
-          <img :src="`/resources/images/${page.name}.jpg`" alt="">
+          <img :src="`/portfolio/resources/images/${page.name}.jpg`" alt="">
         </div>
         <div
           class="wrap-title"
+          :class="`wrap-title-${index}`"
           @click="handleClickMovePage(page.name)"
         >
           <h2 class="title line">
@@ -71,6 +72,7 @@ onMounted(() => {
     innerHeight.value = window.innerHeight
   })
 
+  isScrollable.value = true
   setTimeout(() => {
     revealText()
   }, 1000)
@@ -103,7 +105,7 @@ onMounted(() => {
       isScroll.value = false
       isUpScroll.value = false
       isDownScroll.value = false
-      revealText();
+      if(isScrollable.value) revealText()
     }, 1500)
   })
 
@@ -143,7 +145,7 @@ onMounted(() => {
       isScroll.value = false;
       isUpScroll.value = false;
       isDownScroll.value = false;
-      revealText();
+      if(isScrollable.value) revealText()
     }, 1500);
   });
 })
@@ -157,9 +159,11 @@ const slideIndex = ref(0)
 const innerWidth = ref()
 const innerHeight = ref(0)
 const tl = gsap.timeline()
+const isScrollable = ref(true)
 
 const handleClickMovePage = (name) => {
   isMoveScroll.value = true
+  isScrollable.value = false
   // 페이지 이동
   setTimeout(() => {
     router.push(`project/${name}`)
@@ -177,16 +181,21 @@ const revealText = () => {
     ease: "expoScale(0.5,7,none)",
     y: 0
   })
+  tl.to(`.wrap-title-${slideIndex.value}`,{
+    className: "wrap-title active",
+  })
 }
 
 const coverText = () => {
-  console.log(123)
   tl.to(`.spell-${slideIndex.value}`,{
     opacity: 0,
     stagger: 0.05,
     ease: "expoScale(0.5,7,none)",
     y: 50,
     duration: 0.2
+  })
+  tl.to(`.wrap-title-${slideIndex.value}`,{
+    className: "wrap-title",
   })
 }
 </script>

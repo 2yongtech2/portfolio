@@ -14,15 +14,16 @@ const textScroll = () =>{
       y = e.clientY - wrapTitleRect.top
     })
     wrapTitle.addEventListener('mouseenter', (e) => {
-      
-      clearInterval(downSize)
-      upSize = setInterval(() => {
-        circleSize += 1
-        title.style.clipPath = `circle(${circleSize}vw at ${x / wrapTitleRect.width * 100}% ${y / wrapTitleRect.height * 100}%)`
-        if (circleSize >= 80) {
-          clearInterval(upSize)
-        }
-      }, 10)
+      if(wrapTitle.classList.contains('active')){
+        clearInterval(downSize)
+        upSize = setInterval(() => {
+          circleSize += 1
+          title.style.clipPath = `circle(${circleSize}vw at ${x / wrapTitleRect.width * 100}% ${y / wrapTitleRect.height * 100}%)`
+          if (circleSize >= 80) {
+            clearInterval(upSize)
+          }
+        }, 10)
+      }
     })
     wrapTitle.addEventListener('mouseleave', (e) => {
       clearInterval(upSize)
