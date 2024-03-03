@@ -86,7 +86,7 @@ onMounted(() => {
         currentSlide.value++
         isDownScroll.value = true
         setTimeout(() => {
-          coverText()
+          if(isScrollable.value) coverText()
           slideIndex.value++
         }, 700)
       }
@@ -96,7 +96,7 @@ onMounted(() => {
         isUpScroll.value = true
         currentSlide.value--
         setTimeout(() => {
-          coverText()
+          if(isScrollable.value) coverText()
           slideIndex.value--
         }, 700)
       }
@@ -126,7 +126,7 @@ onMounted(() => {
         currentSlide.value++;
         isDownScroll.value = true;
         setTimeout(() => {
-          coverText();
+          if(isScrollable.value) coverText()
           slideIndex.value++;
         }, 700);
       }
@@ -135,7 +135,7 @@ onMounted(() => {
         isUpScroll.value = true;
         currentSlide.value--;
         setTimeout(() => {
-          coverText();
+          if(isScrollable.value) coverText()
           slideIndex.value--;
         }, 700);
       }
@@ -150,6 +150,9 @@ onMounted(() => {
   });
 })
 
+onBeforeRouteLeave(() => {
+  isScrollable.value = false
+})
 const isScroll = ref(false)
 const isUpScroll = ref(false)
 const isDownScroll = ref(false)
@@ -232,7 +235,7 @@ const coverText = () => {
   }
   .title{
     display: inline-block;
-    font-size: max(146px, 5vw);
+    font-size: max(132px, 4.5vw);
     color: #fff;
     line-height: 1;
     text-transform: uppercase;
@@ -245,6 +248,7 @@ const coverText = () => {
     justify-content: center;
     font-weight: 700;
     cursor: pointer;
+    font-family: 'GmarketSans';
     &.line{
       -webkit-text-stroke-width: 1px;
       -webkit-text-stroke-color: #fff;
