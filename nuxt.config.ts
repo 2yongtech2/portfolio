@@ -3,7 +3,7 @@ export default defineNuxtConfig({
   devtools: { enabled: false },
   ssr: false,
   app: {
-    baseURL: '/portfolio/',
+    baseURL: '/portfolio/', 
     head:{
       htmlAttrs: {
         lang: 'ko'

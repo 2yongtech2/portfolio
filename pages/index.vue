@@ -1,5 +1,5 @@
 <template>
-  <div class="body" :style="`height: ${innerHeight}px`">
+  <div class="body">
     <div class="intro" v-if="false">
       <h1 class="title" v-for="a in titleArrr" :key="a">
         {{ a }}
@@ -65,94 +65,33 @@ const router = useRouter();
 
 
 onMounted(() => {
+  let startY = 0
   textScroll()
   gsap.from('.body', {autoAlpha: 0, duration: 1, ease: "Expo.easeInOut"})
   innerHeight.value = window.innerHeight
   window.addEventListener('resize', () => {
     innerHeight.value = window.innerHeight
   })
-
-  isScrollable.value = true
-  setTimeout(() => {
-    revealText()
-  }, 1000)
-
-  // 스크롤 이벤트
-  window.addEventListener('wheel', (e) => {
-    if(isScroll.value) return
-    isScroll.value = true
-    if (e.deltaY > 0) {
-      if(currentSlide.value !== PAGE_INFO.length - 1){
-        currentSlide.value++
-        isDownScroll.value = true
-        setTimeout(() => {
-          if(isScrollable.value) coverText()
-          slideIndex.value++
-        }, 700)
-      }
-    } else {
-      if(currentSlide.value !== 0){
-        
-        isUpScroll.value = true
-        currentSlide.value--
-        setTimeout(() => {
-          if(isScrollable.value) coverText()
-          slideIndex.value--
-        }, 700)
-      }
-    }
-    setTimeout(() => {
-      isScroll.value = false
-      isUpScroll.value = false
-      isDownScroll.value = false
-      if(isScrollable.value) revealText()
-    }, 1500)
-  })
-
-  // 모바일에서 먹히게
-  let startY;
+  // 이벤트 리스너 연결
+  window.addEventListener('wheel', handleScroll);
   window.addEventListener('touchstart', (e) => {
     startY = e.touches[0].clientY;
   });
-
-  window.addEventListener('touchmove', (e) => {
-    if (isScroll.value) return;
-    isScroll.value = true;
-
-    const deltaY = e.touches[0].clientY - startY;
-
-    if (deltaY > 0) {
-      if (currentSlide.value !== PAGE_INFO.length - 1) {
-        currentSlide.value++;
-        isDownScroll.value = true;
-        setTimeout(() => {
-          if(isScrollable.value) coverText()
-          slideIndex.value++;
-        }, 700);
-      }
-    } else {
-      if (currentSlide.value !== 0) {
-        isUpScroll.value = true;
-        currentSlide.value--;
-        setTimeout(() => {
-          if(isScrollable.value) coverText()
-          slideIndex.value--;
-        }, 700);
-      }
-    }
-
-    setTimeout(() => {
-      isScroll.value = false;
-      isUpScroll.value = false;
-      isDownScroll.value = false;
-      if(isScrollable.value) revealText()
-    }, 1500);
-  });
+  window.addEventListener('touchmove', handleTouch);
+  // 초기 애니메이션 실행
+  isScrollable.value = true;
+  setTimeout(() => {
+    revealText();
+  }, 1000);
 })
 
 onBeforeRouteLeave(() => {
-  isScrollable.value = false
+  // isScrollable.value = false
+  window.removeEventListener('wheel', handleScroll);
+  window.removeEventListener('touchstart', handleTouch);
+  window.removeEventListener('touchmove', handleTouch);
 })
+
 const isScroll = ref(false)
 const isUpScroll = ref(false)
 const isDownScroll = ref(false)
@@ -163,6 +102,7 @@ const innerWidth = ref()
 const innerHeight = ref(0)
 const tl = gsap.timeline()
 const isScrollable = ref(true)
+
 
 const handleClickMovePage = (name) => {
   isMoveScroll.value = true
@@ -182,10 +122,10 @@ const revealText = () => {
     opacity: 1,
     stagger: 0.05,
     ease: "expoScale(0.5,7,none)",
-    y: 0
+    y: 0,
   })
   tl.to(`.wrap-title-${slideIndex.value}`,{
-    className: "wrap-title active",
+    className: `wrap-title wrap-title-${slideIndex.value} active`,
   })
 }
 
@@ -198,9 +138,69 @@ const coverText = () => {
     duration: 0.2
   })
   tl.to(`.wrap-title-${slideIndex.value}`,{
-    className: "wrap-title",
+    className: `wrap-title wrap-title-${slideIndex.value}`,
   })
 }
+
+// Scroll 이벤트 핸들러
+const handleScroll = (e) => {
+  if (isScroll.value) return;
+  isScroll.value = true;
+  if (e.deltaY > 0) {
+    handleDownScroll();
+  } else {
+    handleUpScroll();
+  }
+  setTimeout(() => {
+    isScroll.value = false;
+    isUpScroll.value = false;
+    isDownScroll.value = false;
+    if (isScrollable.value) revealText();
+  }, 1500);
+};
+
+// Touch 이벤트 핸들러
+const handleTouch = (e) => {
+  if (isScroll.value) return;
+  isScroll.value = true;
+  const deltaY = e.touches[0].clientY - startY;
+  if (deltaY > 0) {
+    handleDownScroll();
+  } else {
+    handleUpScroll();
+  }
+  setTimeout(() => {
+    isScroll.value = false;
+    isUpScroll.value = false;
+    isDownScroll.value = false;
+    if (isScrollable.value) revealText();
+  }, 1500);
+};
+
+// Down Scroll 핸들러
+const handleDownScroll = () => {
+  if (currentSlide.value !== PAGE_INFO.length - 1) {
+    currentSlide.value++;
+    isDownScroll.value = true;
+    setTimeout(() => {
+      if (isScrollable.value) coverText();
+      slideIndex.value++;
+    }, 700);
+  }
+};
+
+// Up Scroll 핸들러
+const handleUpScroll = () => {
+  if (currentSlide.value !== 0) {
+    isUpScroll.value = true;
+    currentSlide.value--;
+    setTimeout(() => {
+      if (isScrollable.value) coverText();
+      slideIndex.value--;
+    }, 700);
+  }
+};
+
 </script>
 
 <style lang="scss" scoped>
