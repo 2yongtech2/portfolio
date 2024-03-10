@@ -5,19 +5,11 @@ type PageInfo = {
 
 export const PAGE_INFO : PageInfo[] = [
   {
-    name : 'raporapo',
-    color : '#60BCB5',
-  },
-  {
     name : 'canvas',
     color : '#1454FF',
   },
   {
     name : 'raporapo',
-    color : '#1454FF',
-  },
-  {
-    name : 'raporapo',
-    color : '#1454FF',
+    color : '#60BCB5',
   },
 ]
