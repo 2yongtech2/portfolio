@@ -7,11 +7,11 @@
   ]" 
   data-scroll-container
   >
-  <div class="wrap-all">
+  <div class="wrap-all" :style="alphaState ? 'visibility : hidden' : 'visibility : visible'">
     <section class="sec-1">
       <div class="box-title">
-        <h3 class="sub-title fade-out" data-scroll data-scroll-speed="2">Web/Mobile Gamification</h3>
-      <h1 class="title fade-out" data-scroll data-scroll-speed="2" data-scroll-opacity="0">
+        <h3 class="sub-title fade-out" data-scroll>Web/Mobile Gamification</h3>
+      <h1 class="title fade-out" data-scroll>
         <span class="line"> 게이미피케이션 제작 플랫폼</span>
         <span class="fill">RAPORAPO</span>
       </h1>
@@ -153,6 +153,16 @@
         </div>
       </div>
     </section>
+    <section class="sec-4"></section>
+    <section class="sec-next" :style="{'background-color' : PAGE_INFO[currentIndex + 1 <  PAGE_INFO.length ? currentIndex + 1 : 0].color}">
+      <div class="box-title">
+        <h3 class="sub-title">Web/Mobile Gamification</h3>
+        <h1 class="title">
+          <span class="line"> 게이미피케이션 제작 플랫폼</span>
+          <span class="fill">RAPORAPO</span>
+        </h1>
+      </div>
+    </section>
   </div>
 </div>
 </template>
@@ -161,6 +171,7 @@
 import { PAGE_INFO } from '@/const/pageInfo'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { usePageStore } from '@/stores/page'
 import LocomotiveScroll from 'locomotive-scroll';
 
 const route = useRoute();
@@ -172,6 +183,13 @@ let scroll = ref()
 const fontColor = ref('#fff')
 const isResizeObserver = ref()
 let resizeObserver = null;
+const cardWidth = ref(372)
+const cardHeight = ref(567)
+let max = Math.max(14 * 16, 16.875 * window.innerWidth / 100);
+
+const store = usePageStore()
+const { alphaState, pageMovingTime } = storeToRefs(store)
+
 onMounted(() => {
   initFunction()
 })
@@ -189,7 +207,7 @@ onBeforeUnmount(() => {
 
 const initFunction = () =>{
   gsap.registerPlugin(ScrollTrigger)
-  gsap.from('.wrap-all', {autoAlpha: 0, duration: 1, ease: "Expo.easeInOut"})
+ 
 
   scroll.value = new LocomotiveScroll({
     el: document.querySelector('[data-scroll-container]'),
@@ -206,22 +224,26 @@ const initFunction = () =>{
     scroll.value.update();
   });
 
+  if(alphaState.value){
+    gsap.from('.wrap-all', {autoAlpha: 0, duration: 1, ease: "Expo.easeInOut"})
+    gsap.from('.box-title', {ease: "power2.out", y:"50%", duration: 0.7, delay: 1})
+  }
+  gsap.from('.box-main', {ease: "power2.out", y:"10%",  width:"80%", duration: 0.7, delay: 1, opacity: 0})
   
-  gsap.from('.box-title', {ease: "power2.out", y:"50%", duration: 0.7, delay: 1})
-  // gsap.from('.title', {ease: "power2.out", top:"30%", duration: 0.7, delay: 1})
-  gsap.from('.box-main', {ease: "power2.out", y:"10%",  width:"80%", duration: 0.7, delay: 1})
-
+  max = Math.max(14 * 16, 16.875 * window.innerWidth / 100)
   scroll.value.on("scroll", (scrollArgs) => {
     // 모든 fade-out 클래스를 가진 요소에 대해 처리
     document.querySelectorAll('.fade-out').forEach((element) => {
       // 요소가 보이는 정도에 따라 투명도 조절
       const opacity = 1 - scrollArgs.scroll.y / 500;
       element.style.opacity = opacity.toString();
+      // 요소가 보이는 정도에 따라 y축 이동
+      element.style.transform = `translateY(${scrollArgs.scroll.y / 2}px)`;
     });
   });
 
   const sec2 = document.querySelector('.sec-2');
-  const flow3 = document.querySelector('.flow-3');
+  const sec4 = document.querySelector('.sec-4');
   // locomotive스크롤로 .sec-2에 스크롤 트리거를 추가
   scroll.value.on('scroll', (args) => {
     if (args.scroll.y < sec2.offsetTop - window.innerHeight / 2) {
@@ -229,30 +251,32 @@ const initFunction = () =>{
         backgroundColor: `${PAGE_INFO[currentIndex].color}`,
         '--fontColor': '#fff',
         ease: "linear",
-        duration: 0.5
+        duration: 0.2
       });
     }
-    // else if (args.scroll.y >= sec2.offsetTop - window.innerHeight / 2 && args.scroll.y < flow3.offsetTop - window.innerHeight / 2) {
-    //   gsap.to('.body', { 
-    //     backgroundColor: '#fff',
-    //     '--fontColor': '#000',
-    //     ease: "linear",
-    //     duration: 0.5
-    //   });
-    // }
-    else {
+    else if (args.scroll.y >= sec2.offsetTop - window.innerHeight / 2 && args.scroll.y < sec4.offsetTop - window.innerHeight / 2) {
       gsap.to('.body', { 
         backgroundColor: '#fff',
         '--fontColor': '#000',
         ease: "linear",
-        duration: 0.5
+        duration: 0.2
+      });
+    }
+    else {
+      gsap.to('.body', { 
+        backgroundColor: '#111',
+        '--fontColor': '#fff',
+        ease: "linear",
+        duration: 0.2
       });
     }
   });
   
   // video에 도착하면 재생
   const video = document.querySelectorAll('.video');
+  
   video.forEach((item) => {
+    item.playbackRate = 1.1;
     scroll.value.on('scroll', (args) => {
       if (args.scroll.y > item.offsetTop - window.innerHeight / 2) {
         item.play();
@@ -262,18 +286,28 @@ const initFunction = () =>{
     });
   });
 
-  const boxMedia = document.querySelectorAll('.box-media video, .box-media img');
-  // box-media에 스크롤한 양 만큼 scale 1로 가기 현재 화면이 box-media보다 위에있으면 scale을 점점 늘린다 최대 1.6 까지
-  // boxMedia.forEach((item) => {
-  //   scroll.value.on('scroll', (args) => {
-  //     if (args.scroll.y < item.offsetTop) {
-  //       const scale = Math.max(1.6 - (args.scroll.y - item.offsetTop + window.innerHeight) / 1000, 1); // 최소 스케일을 1로 설정합니다.
-  //       item.style.transform = `scale(${scale})`;
-  //     }
-  //   });
-  // });
-}
+  const secNext = document.querySelector('.sec-next');
+  const nextTitle = document.querySelector('.sec-next .box-title');
+  let isTimerOn = false;
+  let timer = null;
+  scroll.value.on('scroll', (args) => {
+    nextTitle.style.transform = `translateY(${args.scroll.y - secNext.offsetTop + max}px)`;
 
+    // secNext에 도착하면 sexNext요소 안에 있을동안 5초 기다리고 다음 페이지로 이동 sexNext를 벗어나면 5초 타이머 초기화
+    if (args.scroll.y > secNext.offsetTop - window.innerHeight / 2) {
+      
+      if(isTimerOn) return
+      isTimerOn = true
+      timer = setTimeout(() => {
+        alphaState.value = false
+        router.push(`/project/${PAGE_INFO[currentIndex + 1 <  PAGE_INFO.length ? currentIndex + 1 : 0].name}`)
+      }, pageMovingTime.value);
+    } else {
+      isTimerOn = false
+      clearTimeout(timer);
+    }
+  });
+}
 
 </script>
 <style lang="scss">
@@ -547,5 +581,107 @@ const initFunction = () =>{
   .flow-3{
     margin-bottom: 2rem;
   }
+  .sec-4{
+      display: flex;
+      position: relative;
+      padding: 0 10vw;
+      gap: 8%;
+      min-height: 1858px;
+      align-items: flex-start;
+      .box-title{
+        width: 30%;
+        min-width: 20%;
+        padding: 130px 0;
+      }
+      .wrap-img{
+        position: relative;
+        width: 62%;
+        padding: 130px 0;
+      }
+      .box-img{
+        position: absolute;
+        width: var(--cardWidth);
+        height: var(--cardHeight);
+        .card{
+          width: 100%;
+          height: 100%;
+          position: relative;
+          display: block;
+          .ufo{
+            position: absolute;
+            top: -18px;
+            right: -67px;
+            width: 160px;
+          }
+          .monkey{
+            position: absolute;
+            top: 200px;
+            left: -95px;
+            width: 190px;
+          }
+          .note{
+            position: absolute;
+            top: 65%;
+            left: -70px;
+            width: 140px;
+          }
+        }
+        &:nth-child(1){
+          top: 0;
+          left: 0;
+        }
+        &:nth-child(2){
+          top: calc(var(--cardHeight) / 2);
+          left: calc(var(--cardWidth) + 15%);
+        }
+        &:nth-child(3){
+          top: calc(var(--cardHeight) * 1.2);
+          left: 0;
+        }
+        &:nth-child(4){
+          top: calc(var(--cardHeight) * 1.6);
+          left: calc(var(--cardWidth) + 15%);
+        }
+      }
+    }
+    .sec-next{
+      height: 100vh;
+      padding: 0 max(4.375rem, 3.65vw);
+      // padding-top: max(14rem, 16.875vw);
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      .sub-title{
+        color: #fff;
+        font-size: max(1.125rem, 1.25vw);
+        font-weight: 300;
+        margin-bottom: 0.8em;
+        position: relative;
+      }
+      .title{
+        color: #fff;
+        font-size: max(3.6rem, 4.5vw);
+        opacity: 1;
+        margin-bottom: 1em;
+        font-weight: 900;
+        position: relative;
+        .line{
+          color: inherit;
+          -webkit-text-stroke-width: 1px;
+          -webkit-text-stroke-color: #fff;
+          -webkit-text-fill-color: transparent;
+          overflow: hidden;
+          font-family: inherit;
+          font-weight: inherit;
+          padding: 0 0.125em;
+        }
+        .fill{
+          font-family: inherit;
+          color: #fff;
+          font-weight: inherit;
+          padding: 0 0.125em;
+        }
+      }
+    }
 }
 </style>

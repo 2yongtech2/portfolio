@@ -7,11 +7,11 @@
     ]" 
     data-scroll-container
     >
-    <div class="wrap-all">
+    <div class="wrap-all" :style="alphaState ? 'visibility : hidden' : 'visibility : visible'">
       <section class="sec-1">
         <div class="box-title">
-          <h3 class="sub-title fade-out" data-scroll data-scroll-speed="2">Web/Mobile Gamification</h3>
-        <h1 class="title fade-out" data-scroll data-scroll-speed="2" data-scroll-opacity="0">
+          <h3 class="sub-title fade-out" data-scroll>Web/Mobile Gamification</h3>
+        <h1 class="title fade-out"  data-scroll>
           <span class="line"> 교육용 컨텐츠 제작 플랫폼</span>
           <span class="fill">동아출판 캔버스</span>
         </h1>
@@ -102,7 +102,7 @@
         </div>
         <div class="flow flow-2">
           <div class="box-media">
-            컴퓨터, 모바일 목업 뷰어 이미지 or 뷰어 영상찍기
+            <video src="@/assets/videos/canvas/content-viewer.mp4" class="video" muted playsinline loop></video>
           </div>
           <div class="box-text">
             <p class="title-flow">수업콘텐츠 뷰어</p>
@@ -111,15 +111,85 @@
             </p>
           </div>
         </div>
+        <div class="flow">
+          <div class="box-text">
+            <p class="title-flow">
+              문제 저작 도구
+            </p>
+            <p class="desc">
+              게임에 사용될 문제를 생성하는 페이지로, 한번에 많은 정보를 표시해야 하는 저작툴의 특성에 맞게 PC에 최적화된 화면을 제작하였습니다. 
+              문제를 생성한 후에 미리보기도 제공하고 있습니다. 문제저작도구는 PC에 최적화되어 있으며, 사용자가 문제를 생성하는데 불편함이 없도록 UI/UX를 고려하여 제작하였습니다.
+            </p>
+          </div>
+          <div class="box-media">
+            <video src="@/assets/videos/canvas/quiz-editor.mp4" class="video" muted playsinline loop></video>
+          </div>
+        </div>
+      </section>
+
+      <section class="sec-4" id="secGame">
+        <!-- data-scroll-sticky data-scroll-target="#secGame" -->
+        <div class="box-title" data-scroll data-scroll-sticky data-scroll-target="#secGame">
+          <p class="title-flow">
+            수업콘텐츠 저작 도구
+          </p>
+          <p class="desc">
+            한번에 많은 정보를 표시해야 하는 저작툴의 특성에 맞게 PC에 최적화된 화면을 제작하였고, 더불어 사용자의 편의를 높이기 위해 Vue 기반의 SPA를 구축하였습니다.
+            처음 사용해 보는 유저가 쉽게 사용법을 익히고 가능한 많은 기능을 쉽게 사용할 수 있도록 가장 보편적인 저작툴 형태로 UI/UX를 고려하였습니다.
+          </p>
+        </div>
+        <div
+          class="wrap-img"
+          :style="[
+            {'--cardWidth' : `${cardWidth}px`}, 
+            {'--cardHeight' : `${cardHeight}px`}
+          ]"
+          data-scroll
+        >
+          <div class="box-img" data-scroll data-scroll-speed="1">
+            <a href="https://canvas.douclass.com/center/game/play?code=01264416&isLand=true" target="_blank" class="card">
+              <img src="@/assets/images/canvas/game-2.png" alt="초성게임" class="thumbnail">
+            </a>
+          </div>
+          <div class="box-img" data-scroll data-scroll-speed="2">
+            <a href="https://canvas.douclass.com/center/game/play?code=04335935&isLand=true" target="_blank" class="card">
+              <img src="@/assets/images/canvas/game-1.png" alt="퀴즈타임" class="thumbnail">
+              <img src="@/assets/images/canvas/ufo.svg" alt="" class="ufo" data-scroll data-scroll-speed="2.5">
+            </a>
+          </div>
+          <div class="box-img" data-scroll data-scroll-speed="3">
+            <a href="https://canvas.douclass.com/center/game/play?code=03784221&isLand=true" target="_blank" class="card">
+              <img src="@/assets/images/canvas/game-3.png" alt="카드 뒤집기" class="thumbnail">
+              <img src="@/assets/images/canvas/monkey.svg" alt="원숭이 아이콘" class="monkey" data-scroll data-scroll-speed="2">
+            </a>
+          </div>
+          <div class="box-img" data-scroll data-scroll-speed="4">
+            <a href="https://canvas.douclass.com/center/game/play?code=02466137&isLand=true" target="_blank" class="card">
+              <img src="@/assets/images/canvas/game-3.png" alt="흩어진 낱말찾기" class="thumbnail">
+              <img src="@/assets/images/canvas/note.svg" alt="노트 아이콘" class="note" data-scroll data-scroll-speed="2">
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <section class="sec-next" :style="{'background-color' : PAGE_INFO[currentIndex + 1].color}">
+        <div class="box-title">
+          <h3 class="sub-title">Web/Mobile Gamification</h3>
+          <h1 class="title">
+            <span class="line"> 게이미피케이션 제작 플랫폼</span>
+            <span class="fill">RAPORAPO</span>
+          </h1>
+        </div>
       </section>
     </div>
   </div>
-  </template>
+</template>
   
   <script setup>
   import { PAGE_INFO } from '@/const/pageInfo'
   import { gsap } from 'gsap'
   import { ScrollTrigger } from 'gsap/ScrollTrigger';
+  import { usePageStore } from '@/stores/page'
   import LocomotiveScroll from 'locomotive-scroll';
   
   const route = useRoute();
@@ -131,6 +201,13 @@
   const fontColor = ref('#fff')
   const isResizeObserver = ref()
   let resizeObserver = null;
+  const cardWidth = ref(372)
+  const cardHeight = ref(567)
+  let max = Math.max(14 * 16, 16.875 * window.innerWidth / 100);
+
+  const store = usePageStore()
+  const { alphaState, pageMovingTime } = storeToRefs(store)
+
   onMounted(() => {
     initFunction()
   })
@@ -148,8 +225,6 @@
   
   const initFunction = () =>{
     gsap.registerPlugin(ScrollTrigger)
-    gsap.from('.wrap-all', {autoAlpha: 0, duration: 1, ease: "Expo.easeInOut"})
-  
     scroll.value = new LocomotiveScroll({
       el: document.querySelector('[data-scroll-container]'),
       smooth: true,
@@ -165,22 +240,26 @@
       scroll.value.update();
     });
   
+    if(alphaState.value){
+      gsap.from('.wrap-all', {autoAlpha: 0, duration: 1, ease: "Expo.easeInOut"})
+      gsap.from('.box-title', {ease: "power2.out", y:"50%", duration: 0.7, delay: 1})
+    }
+    gsap.from('.box-main', {ease: "power2.out", y:"10%",  width:"80%", duration: 0.7, delay: 1, opacity: 0})
     
-    gsap.from('.box-title', {ease: "power2.out", y:"50%", duration: 0.7, delay: 1})
-    // gsap.from('.title', {ease: "power2.out", top:"30%", duration: 0.7, delay: 1})
-    gsap.from('.box-main', {ease: "power2.out", y:"10%",  width:"80%", duration: 0.7, delay: 1})
-  
+    max = Math.max(14 * 16, 16.875 * window.innerWidth / 100)
     scroll.value.on("scroll", (scrollArgs) => {
       // 모든 fade-out 클래스를 가진 요소에 대해 처리
       document.querySelectorAll('.fade-out').forEach((element) => {
         // 요소가 보이는 정도에 따라 투명도 조절
         const opacity = 1 - scrollArgs.scroll.y / 500;
         element.style.opacity = opacity.toString();
+        // 요소가 보이는 정도에 따라 y축 이동
+        element.style.transform = `translateY(${scrollArgs.scroll.y / 2}px)`;
       });
     });
   
     const sec2 = document.querySelector('.sec-2');
-    const flow3 = document.querySelector('.flow-3');
+    const sec4 = document.querySelector('.sec-4');
     // locomotive스크롤로 .sec-2에 스크롤 트리거를 추가
     scroll.value.on('scroll', (args) => {
       if (args.scroll.y < sec2.offsetTop - window.innerHeight / 2) {
@@ -188,30 +267,32 @@
           backgroundColor: `${PAGE_INFO[currentIndex].color}`,
           '--fontColor': '#fff',
           ease: "linear",
-          duration: 0.5
+          duration: 0.2
         });
       }
-      // else if (args.scroll.y >= sec2.offsetTop - window.innerHeight / 2 && args.scroll.y < flow3.offsetTop - window.innerHeight / 2) {
-      //   gsap.to('.body', { 
-      //     backgroundColor: '#fff',
-      //     '--fontColor': '#000',
-      //     ease: "linear",
-      //     duration: 0.5
-      //   });
-      // }
-      else {
+      else if (args.scroll.y >= sec2.offsetTop - window.innerHeight / 2 && args.scroll.y < sec4.offsetTop - window.innerHeight / 2) {
         gsap.to('.body', { 
           backgroundColor: '#fff',
           '--fontColor': '#000',
           ease: "linear",
-          duration: 0.5
+          duration: 0.2
+        });
+      }
+      else {
+        gsap.to('.body', { 
+          backgroundColor: '#111',
+          '--fontColor': '#fff',
+          ease: "linear",
+          duration: 0.2
         });
       }
     });
     
     // video에 도착하면 재생
     const video = document.querySelectorAll('.video');
+    
     video.forEach((item) => {
+      item.playbackRate = 1.1;
       scroll.value.on('scroll', (args) => {
         if (args.scroll.y > item.offsetTop - window.innerHeight / 2) {
           item.play();
@@ -220,17 +301,28 @@
         }
       });
     });
-  
-    const boxMedia = document.querySelectorAll('.box-media video, .box-media img');
-    // box-media에 스크롤한 양 만큼 scale 1로 가기 현재 화면이 box-media보다 위에있으면 scale을 점점 늘린다 최대 1.6 까지
-    // boxMedia.forEach((item) => {
-    //   scroll.value.on('scroll', (args) => {
-    //     if (args.scroll.y < item.offsetTop) {
-    //       const scale = Math.max(1.6 - (args.scroll.y - item.offsetTop + window.innerHeight) / 1000, 1); // 최소 스케일을 1로 설정합니다.
-    //       item.style.transform = `scale(${scale})`;
-    //     }
-    //   });
-    // });
+
+    const secNext = document.querySelector('.sec-next');
+    const nextTitle = document.querySelector('.sec-next .box-title');
+    let isTimerOn = false;
+    let timer = null;
+    scroll.value.on('scroll', (args) => {
+      nextTitle.style.transform = `translateY(${args.scroll.y - secNext.offsetTop + max}px)`;
+
+      // secNext에 도착하면 sexNext요소 안에 있을동안 5초 기다리고 다음 페이지로 이동 sexNext를 벗어나면 5초 타이머 초기화
+      if (args.scroll.y > secNext.offsetTop - window.innerHeight / 2) {
+        
+        if(isTimerOn) return
+        isTimerOn = true
+        timer = setTimeout(() => {
+          alphaState.value = false
+          router.push(`/project/${PAGE_INFO[currentIndex + 1 <  PAGE_INFO.length ? currentIndex + 1 : 0].name}`)
+        }, pageMovingTime.value);
+      } else {
+        isTimerOn = false
+        clearTimeout(timer);
+      }
+    });
   }
   
   
@@ -480,6 +572,8 @@
           flex: 1;
           aspect-ratio: 16/9;
           overflow: hidden;
+          box-shadow: 0px 0px 12px rgba(0,0,0,0.1);
+          border-radius: 8px;
           
           video, img{
             width: 100%;
@@ -488,18 +582,121 @@
           }
         }
       }
-  
-      .title-flow{
-        color: $font-color;
-        font-size: max(1.5rem, 1.56vw);
-        font-weight: 500;
-        margin-bottom: 1em;
+    }
+
+    .title-flow{color: $font-color;
+      font-size: max(1.5rem, 1.56vw);
+      font-weight: 500;
+      margin-bottom: 1em;
+    }
+    .desc{
+      color: $font-color;
+      font-size: max(0.875rem, 0.8333vw);
+      font-weight: 300;
+      line-height: 1.8;
+    }
+      
+
+    .sec-4{
+      display: flex;
+      position: relative;
+      padding: 0 10vw;
+      gap: 8%;
+      min-height: 1858px;
+      align-items: flex-start;
+      .box-title{
+        width: 30%;
+        min-width: 20%;
+        padding: 130px 0;
       }
-      .desc{
-        color: $font-color;
-        font-size: max(0.875rem, 0.8333vw);
+      .wrap-img{
+        position: relative;
+        width: 62%;
+        padding: 130px 0;
+      }
+      .box-img{
+        position: absolute;
+        width: var(--cardWidth);
+        height: var(--cardHeight);
+        .card{
+          width: 100%;
+          height: 100%;
+          position: relative;
+          display: block;
+          .ufo{
+            position: absolute;
+            top: -18px;
+            right: -67px;
+            width: 160px;
+          }
+          .monkey{
+            position: absolute;
+            top: 200px;
+            left: -95px;
+            width: 190px;
+          }
+          .note{
+            position: absolute;
+            top: 65%;
+            left: -70px;
+            width: 140px;
+          }
+        }
+        &:nth-child(1){
+          top: 0;
+          left: 0;
+        }
+        &:nth-child(2){
+          top: calc(var(--cardHeight) / 2);
+          left: calc(var(--cardWidth) + 15%);
+        }
+        &:nth-child(3){
+          top: calc(var(--cardHeight) * 1.2);
+          left: 0;
+        }
+        &:nth-child(4){
+          top: calc(var(--cardHeight) * 1.6);
+          left: calc(var(--cardWidth) + 15%);
+        }
+      }
+    }
+    .sec-next{
+      height: 100vh;
+      padding: 0 max(4.375rem, 3.65vw);
+      // padding-top: max(14rem, 16.875vw);
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      .sub-title{
+        color: #fff;
+        font-size: max(1.125rem, 1.25vw);
         font-weight: 300;
-        line-height: 1.8;
+        margin-bottom: 0.8em;
+        position: relative;
+      }
+      .title{
+        color: #fff;
+        font-size: max(3.6rem, 4.5vw);
+        opacity: 1;
+        margin-bottom: 1em;
+        font-weight: 900;
+        position: relative;
+        .line{
+          color: inherit;
+          -webkit-text-stroke-width: 1px;
+          -webkit-text-stroke-color: #fff;
+          -webkit-text-fill-color: transparent;
+          overflow: hidden;
+          font-family: inherit;
+          font-weight: inherit;
+          padding: 0 0.125em;
+        }
+        .fill{
+          font-family: inherit;
+          color: #fff;
+          font-weight: inherit;
+          padding: 0 0.125em;
+        }
       }
     }
   }
