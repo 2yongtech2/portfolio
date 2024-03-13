@@ -22,12 +22,12 @@
           @click="handleClickMovePage(page.name)"
         >
           <h2 class="title line">
-            <span v-for="spell in splitName(page.name)" :key="spell" class="spell" :class="`spell-${index}`">
+            <span v-for="spell in splitName(page.name)" :key="spell" class="spell" :class="`spell-${index}`" data-cursor-type="arrow">
               {{ spell }}
             </span>
           </h2>
           <h2 class="title fill">
-            <span v-for="spell in splitName(page.name)" :key="spell">
+            <span v-for="spell in splitName(page.name)" :key="spell" data-cursor-type="arrow">
               {{ spell }}
             </span>
           </h2>
@@ -254,6 +254,7 @@ const handleUpScroll = () => {
       -webkit-text-stroke-color: #fff;
       -webkit-text-fill-color: transparent;
       overflow: hidden;
+      padding: 1vh 0;
     }
     &.fill{
       position: absolute;
@@ -263,6 +264,7 @@ const handleUpScroll = () => {
       -webkit-text-fill-color: #fff;
       clip-path: circle(0vw at 50% 50%);
       z-index: 999;
+      padding: 1vh 0;
     }
     .spell{
       opacity: 0;

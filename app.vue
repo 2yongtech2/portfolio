@@ -19,10 +19,12 @@
       </button>
     </header>
     <NuxtPage/>
+    <Mouse/>
   </div>
 </template>
 
 <script lang="ts" setup>
+import Mouse from "@/components/Mouse.vue";
 </script>
 
 <style lang="scss">

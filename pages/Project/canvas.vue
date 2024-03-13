@@ -20,14 +20,14 @@
           <img src="@/assets/images/2.jpg" alt="">
         </div>
       </section>
-      <section class="sec-2">
+      <section class="sec-2" data-scroll data-scroll-offset="40%">
         <div class="d-flex">
           <div class="box-left">
-            <h5 class="desc">
+            <h5 class="desc fade-up">
               상상이 현실이 되는 수업공간<br>
               '라포라포로 만드는 온오프라인 교실'
             </h5>
-            <div class="box-category">
+            <div class="box-category fade-up">
               <dl>
                 <dt>클라이언트</dt>
                 <dd>동아출판(주)</dd>
@@ -50,27 +50,27 @@
               </dl>
             </div>
   
-            <div class="box-link">
-              <a href="https://canvas.douclass.com/" target="_blank" class="link" data-scroll>사이트 바로가기</a>
+            <div class="box-link fade-up">
+              <a href="https://canvas.douclass.com/" target="_blank" class="link" data-scroll data-cursor-type="hover">사이트 바로가기</a>
             </div>
           </div>
           <div class="box-right">
             <div class="box-text">
-              <p class="category">
+              <p class="category fade-up">
                 프로젝트 소개
               </p>
-              <hr>
-              <p class="text">
+              <hr class="fade-up">
+              <p class="text fade-up">
                 캔버스는 다양한 디지털콘텐츠를 제작하고 공유할 수 있는 참여형 수업 플랫폼입니다.<br>
                 교육 활동을 다양하게 지원하는 수업콘텐츠(일종의 웹 기반 PPT) 제작, 활동지 작성, 흥미를 유발하는 게임, 그리고 설문 조사 등의 만들기 도구를 통해 교육 과정을 보다 효과적으로 구성하고 학습자들의 참여를 촉진할 수 있습니다.
               </p>
             </div>
             <div class="box-text">
-              <p class="category">
+              <p class="category fade-up">
                 수행업무 개요
               </p>
-              <hr>
-              <p class="text">
+              <hr class="fade-up">
+              <p class="text fade-up">
                 메인페이지 및 게임세트를 생성 및 수정하는 부분은 JAVA spring 기반으로 제작되었으며,<br>
                 수업콘텐츠(일종의 웹 기반 PPT) 생성 및 뷰어, 게임 실행 및 결과 확인,<br>
                 설문조사 등의 페이지는 Vue, Nuxt으로 제작되었습니다.<br>
@@ -78,7 +78,7 @@
                 게임의 경우 Vue를 사용하여 spa 형태의 반응형 게임으로 제작하였습니다.<br>
                 <span class="caution">(영어 게임은 적응형으로 작업 되었습니다)</span>
               </p>
-              <p class="caution">
+              <p class="caution fade-up">
                 * 상세한 내용은 하기에 작성했습니다.
               </p>
             </div>
@@ -86,8 +86,8 @@
         </div>
       </section>
       <section class="sec-3">
-        <div class="flow flow-1">
-          <div class="box-text">
+        <div class="flow flow-1" data-scroll data-scroll-offset="50%">
+          <div class="box-text fade-up">
             <p class="title-flow">
               수업콘텐츠 저작 도구
             </p>
@@ -96,23 +96,23 @@
               처음 사용해 보는 유저가 쉽게 사용법을 익히고 가능한 많은 기능을 쉽게 사용할 수 있도록 가장 보편적인 저작툴 형태로 UI/UX를 고려하였습니다.
             </p>
           </div>
-          <div class="box-media">
+          <div class="box-media fade-up">
             <video src="@/assets/videos/canvas/content-editor.mp4" class="video" muted playsinline loop></video>
           </div>
         </div>
-        <div class="flow flow-2">
-          <div class="box-media">
+        <div class="flow flow-2" data-scroll data-scroll-offset="50%">
+          <div class="box-media fade-up">
             <video src="@/assets/videos/canvas/content-viewer.mp4" class="video" muted playsinline loop></video>
           </div>
-          <div class="box-text">
+          <div class="box-text fade-up">
             <p class="title-flow">수업콘텐츠 뷰어</p>
             <p class="desc">
               수업콘텐츠 뷰어는 수업콘텐츠를 보여주는 페이지로, 수업콘텐츠를 생성한 후에는 뷰어에서 확인할 수 있습니다. 뷰어는 PC와 모바일에 최적화되어 있으며, 사용자가 수업콘텐츠를 보는데 불편함이 없도록 UI/UX를 고려하여 제작하였습니다.
             </p>
           </div>
         </div>
-        <div class="flow">
-          <div class="box-text">
+        <div class="flow" data-scroll data-scroll-offset="50%">
+          <div class="box-text fade-up">
             <p class="title-flow">
               문제 저작 도구
             </p>
@@ -121,7 +121,7 @@
               문제를 생성한 후에 미리보기도 제공하고 있습니다. 문제저작도구는 PC에 최적화되어 있으며, 사용자가 문제를 생성하는데 불편함이 없도록 UI/UX를 고려하여 제작하였습니다.
             </p>
           </div>
-          <div class="box-media">
+          <div class="box-media fade-up">
             <video src="@/assets/videos/canvas/quiz-editor.mp4" class="video" muted playsinline loop></video>
           </div>
         </div>
@@ -148,24 +148,32 @@
         >
           <div class="box-img" data-scroll data-scroll-speed="1">
             <a href="https://canvas.douclass.com/center/game/play?code=01264416&isLand=true" target="_blank" class="card">
-              <img src="@/assets/images/canvas/game-2.png" alt="초성게임" class="thumbnail">
+              <div class="card-content">
+                <img src="@/assets/images/canvas/game-2.png" alt="초성게임" class="thumbnail" data-cursor-type="play">
+              </div>
             </a>
           </div>
           <div class="box-img" data-scroll data-scroll-speed="2">
             <a href="https://canvas.douclass.com/center/game/play?code=04335935&isLand=true" target="_blank" class="card">
-              <img src="@/assets/images/canvas/game-1.png" alt="퀴즈타임" class="thumbnail">
+              <div class="card-content">
+                <img src="@/assets/images/canvas/game-1.png" alt="퀴즈타임" class="thumbnail" data-cursor-type="play">
+              </div>
               <img src="@/assets/images/canvas/ufo.svg" alt="" class="ufo" data-scroll data-scroll-speed="2.5">
             </a>
           </div>
           <div class="box-img" data-scroll data-scroll-speed="3">
             <a href="https://canvas.douclass.com/center/game/play?code=03784221&isLand=true" target="_blank" class="card">
-              <img src="@/assets/images/canvas/game-3.png" alt="카드 뒤집기" class="thumbnail">
+              <div class="card-content">
+                <img src="@/assets/images/canvas/game-3.png" alt="카드 뒤집기" class="thumbnail" data-cursor-type="play">
+              </div>
               <img src="@/assets/images/canvas/monkey.svg" alt="원숭이 아이콘" class="monkey" data-scroll data-scroll-speed="2">
             </a>
           </div>
           <div class="box-img" data-scroll data-scroll-speed="4">
             <a href="https://canvas.douclass.com/center/game/play?code=02466137&isLand=true" target="_blank" class="card">
-              <img src="@/assets/images/canvas/game-3.png" alt="흩어진 낱말찾기" class="thumbnail">
+              <div class="card-content">
+                <img src="@/assets/images/canvas/game-4.png" alt="흩어진 낱말찾기" class="thumbnail" data-cursor-type="play">
+              </div>
               <img src="@/assets/images/canvas/note.svg" alt="노트 아이콘" class="note" data-scroll data-scroll-speed="2">
             </a>
           </div>
@@ -176,7 +184,7 @@
         <div class="box-title">
           <h3 class="sub-title">Web/Mobile Gamification</h3>
           <h1 class="title">
-            <span class="line"> 게이미피케이션 제작 플랫폼</span>
+            <span class="line">게이미피케이션 제작 플랫폼</span>
             <span class="fill">RAPORAPO</span>
           </h1>
         </div>
@@ -185,7 +193,7 @@
   </div>
 </template>
   
-  <script setup>
+<script setup>
   import { PAGE_INFO } from '@/const/pageInfo'
   import { gsap } from 'gsap'
   import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -224,11 +232,14 @@
   });
   
   const initFunction = () =>{
+    const cursors = document.querySelector('#cursors');
+    // cursors --cursotColor 변수에 PAGE_INFO[currentIndex].color 값을 할당
+    cursors.style.setProperty('--cursorColor', PAGE_INFO[currentIndex].color);
     gsap.registerPlugin(ScrollTrigger)
     scroll.value = new LocomotiveScroll({
       el: document.querySelector('[data-scroll-container]'),
       smooth: true,
-      multiplier: 0.8,
+      multiplier: 0.5,
       getDirection: true,
   
     });
@@ -262,7 +273,7 @@
     const sec4 = document.querySelector('.sec-4');
     // locomotive스크롤로 .sec-2에 스크롤 트리거를 추가
     scroll.value.on('scroll', (args) => {
-      if (args.scroll.y < sec2.offsetTop - window.innerHeight / 2) {
+      if (args.scroll.y < sec2.offsetTop - window.innerHeight / 4) {
         gsap.to('.body', { 
           backgroundColor: `${PAGE_INFO[currentIndex].color}`,
           '--fontColor': '#fff',
@@ -270,7 +281,7 @@
           duration: 0.2
         });
       }
-      else if (args.scroll.y >= sec2.offsetTop - window.innerHeight / 2 && args.scroll.y < sec4.offsetTop - window.innerHeight / 2) {
+      else if (args.scroll.y >= sec2.offsetTop - window.innerHeight / 4 && args.scroll.y < sec4.offsetTop - window.innerHeight / 2) {
         gsap.to('.body', { 
           backgroundColor: '#fff',
           '--fontColor': '#000',
@@ -306,6 +317,12 @@
     const nextTitle = document.querySelector('.sec-next .box-title');
     let isTimerOn = false;
     let timer = null;
+    
+    const cursorTimer = document.querySelector('#cursor-timer');
+    const cursorDot = document.querySelector('#cursor-inner .dot');
+    const cursorArrow = document.querySelector('#cursor-inner .arrow');
+    const cursorCircle = document.querySelector('#cursor-outer .circle');
+    const needle = document.querySelector('#cursor-timer .needle');
     scroll.value.on('scroll', (args) => {
       nextTitle.style.transform = `translateY(${args.scroll.y - secNext.offsetTop + max}px)`;
 
@@ -314,17 +331,36 @@
         
         if(isTimerOn) return
         isTimerOn = true
+        needle.style.animation = `cursorTimer ${pageMovingTime.value}ms linear forwards`
+        cursorTimer.style.opacity = 1
+        cursorCircle.style.opacity = 0
+        cursorDot.style.opacity = 0
+        cursorArrow.style.opacity = 1
+        cursors.style.mixBlendMode = 'normal'
         timer = setTimeout(() => {
-          alphaState.value = false
-          router.push(`/project/${PAGE_INFO[currentIndex + 1 <  PAGE_INFO.length ? currentIndex + 1 : 0].name}`)
+          // 스크롤을 맨 아래로 이동후 콜백함수 실행
+          scroll.value.scrollTo(document.body.offsetHeight - window.innerHeight, {
+            callback: (target) => {
+              // 다음 페이지로 이동
+              alphaState.value = false
+              router.push(`/project/${PAGE_INFO[currentIndex + 1 <  PAGE_INFO.length ? currentIndex + 1 : 0].name}`)
+            }
+          });
         }, pageMovingTime.value);
+        
       } else {
+        cursorTimer.style.opacity = 0
+        cursorCircle.style.opacity = 1
+        cursorDot.style.opacity = 1
+        cursorArrow.style.opacity = 0
+        needle.style.animation = 'none'
+        cursors.style.mixBlendMode = 'difference'
         isTimerOn = false
         clearTimeout(timer);
       }
     });
   }
-  
+
   
   </script>
   <style lang="scss">
@@ -424,11 +460,14 @@
           font-weight: 500;
           margin-bottom: 0.65em;
           line-height: 1.3;
+          transition: transform 0.7s, opacity 0.7s;
         }
         .box-category{
           display: flex;
           flex-wrap: wrap;
           gap: 1em;
+          transition: transform 0.7s 0.1s, opacity 0.7s 0.1s;
+
           dl{
             display: flex;
             font-size: 0.9375rem;
@@ -451,6 +490,7 @@
           align-items: center;
           gap: 1em;
           margin-top: 2em;
+          transition: transform 0.7s 0.2s, opacity 0.7s 0.2s;
           .link{
             color: $font-color;
             font-size: 14px;
@@ -491,8 +531,8 @@
           hr{
             margin: 1.25em 0;
             height: 1px;
-            transition: background-color 800ms, color 800ms, border 800ms;
-            opacity: 0.3;
+            // transition: background-color 800ms, color 800ms, border 800ms;
+            // opacity: 0.3;
             background-color: $font-color;
             font-size: 15px;
           }
@@ -502,6 +542,32 @@
             font-weight: 300;
             line-height: 1.8;
           }
+          &:nth-of-type(1){
+            .category{
+              transition: transform 0.7s, opacity 0.7s;
+            }
+            hr{
+              transition: transform 0.7s 0.1s, opacity 0.7s 0.1s;
+            }
+            .text{
+              transition: transform 0.7s 0.2s, opacity 0.7s 0.2s;
+            }
+          }
+          &:nth-of-type(2){
+            .category{
+              transition: transform 0.7s 0.3s, opacity 0.7s 0.3s;
+            }
+            hr{
+              transition: transform 0.7s 0.4s, opacity 0.7s 0.4s;
+            }
+            .text{
+              transition: transform 0.7s 0.5s, opacity 0.7s 0.5s;
+            }
+          }
+        }
+        .caution{
+          transition: transform 0.7s 0.6s, opacity 0.7s 0.6s;
+          opacity: 0;
         }
       }
       .caution{
@@ -510,6 +576,22 @@
         font-weight: 300;
         margin-top: 3%;
         opacity: 0.8;
+      }
+      .fade-up{
+        opacity: 0 !important;
+        transform: translateY(80px);
+      }
+      &.is-inview{
+        .fade-up{
+          opacity: 1 !important;
+          transform: translateY(0);
+          &hr{
+            opacity: 0.3 !important;
+          }
+          .caution{
+            opacity: 0.8 !important;
+          }
+        }
       }
     }
     .sec-3{
@@ -530,6 +612,7 @@
         .box-text{
           width: 30%;
           min-width: 30%;
+          transition-delay: 0.1s !important;
         }
         &.half{
           gap: 0;
@@ -581,6 +664,17 @@
             object-fit: cover;
           }
         }
+        .fade-up{
+          opacity: 0;
+          transform: translateY(80px);
+          transition: 0.7s;
+        }
+        &.is-inview{
+          .fade-up{
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
       }
     }
 
@@ -623,6 +717,24 @@
           height: 100%;
           position: relative;
           display: block;
+          .card-content{
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background: #000;
+            img{
+              transition: 0.5s;
+            }
+          }
+          
+          &:hover{
+            .card-content{
+              img{
+                transform: scale(1.05);
+                // opacity: 0.5;
+              }
+            }
+          }
           .ufo{
             position: absolute;
             top: -18px;
@@ -700,4 +812,4 @@
       }
     }
   }
-  </style>
+</style>
