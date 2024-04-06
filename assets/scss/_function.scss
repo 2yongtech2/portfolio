@@ -1,0 +1,4 @@
+// px x를 입력하면 calc(x/1920 * 100vw)로 변환하는 함수
+@function px($x){
+  @return calc(#{$x}/1920 * 100vw);
+}
